@@ -62,7 +62,7 @@ Rails.application.configure do
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  config.action_mailer.default_url_options = { host: 'fast-escarpment-43549.herokuapp.com' }
+  config.action_mailer.delivery_method = { host: 'fast-escarpment-43549.herokuapp.com' }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
@@ -80,4 +80,15 @@ Rails.application.configure do
   config.after_initialize do
     Pay2go.integration_mode = :development
   end
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    port:           587,
+    address:        "smtp.mailgun.org",
+    user_name:      ENV["mailgun_user"],
+    password:       ENV["mailgun_secret"],
+    domain:         "sandboxc60d471b9e6444459ad44bd2146e1a5f.mailgun.org", # 你的 mailgun domain name
+
+    authentication: :plain,
+  }
 end
